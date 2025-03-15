@@ -1,2 +1,2 @@
-# AleksandraShalag.TODOLIST.io
+# AleksandraShalag.github.io
 todo list
