@@ -1,31 +1,32 @@
 import HeaderComponent from './view/header-compomemt.js';
 import AddTaskFormComponentComponent from './view/add-task-form-compoment.js';
-import BoardTaskComponent from './view/board-task-compoment.js';
-import TaskComponent from './view/task-compoment.js';
-import TaskListComponent from './view/task-list-compoment.js';
+import TasksBoardPresenter from './presenter/tasks-board-presenter.js';
+import TasksModel from './model/task-model.js';
+import {TASK_STATUSES} from './const.js';
+import ClearButtonComponent from './view/clear-button-component.js';
 import {render, RenderPosition} from './framework/render.js';
 
 
 
+const tasksModel = new TasksModel();
 
-const bodyContainer= document.querySelector('.board-app');
+// Хедер
+const bodyContainer = document.querySelector('.board-app');
 render(new HeaderComponent(), bodyContainer, RenderPosition.BEFOREBEGIN);
+
+// Форма добавления задачи
 const addTaskContainer = document.querySelector('.add-task');
-render(new AddTaskFormComponentComponent,addTaskContainer);
+render(new AddTaskFormComponentComponent(), addTaskContainer);
+
+// Доска задач
 const boardTasksContainer = document.querySelector('.board-task');
-// добавляем 4 секции
-for (let i = 0; i < 4; i++) {
-  render(new BoardTaskComponent(), boardTasksContainer);
-}
-//находим ВСЕ секции и добавляем в них по компоненту (название компонента + пустой список)
-const taskSectionsContainers = document.querySelectorAll('.task-section');
-taskSectionsContainers.forEach((section) => {
-  render(new TaskComponent(), section); 
+const tasksBoardPresenter = new TasksBoardPresenter({
+  boardContainer: boardTasksContainer,
+  taskModel: tasksModel,
+  statuses: Object.values(TASK_STATUSES),
 });
-const taskCompomentContainers = document.querySelectorAll('.tasks-list');
-taskCompomentContainers.forEach((component)=>{
-    //добавляем по 3 пункта в каждый пустой список
-    for (let i = 0; i < 3; i++) {
-        render(new TaskListComponent(),component);
-    }
-});
+tasksBoardPresenter.init();
+
+// Кнопка очистки корзины
+const clearButtonContainer = document.querySelector('.task-component-basket');
+render(new ClearButtonComponent(), clearButtonContainer);
