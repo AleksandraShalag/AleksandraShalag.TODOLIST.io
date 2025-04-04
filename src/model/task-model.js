@@ -8,7 +8,6 @@ export default class TasksModel{
     }
     
     getTasksByStatus(status) {
-        console.log(this.#boardtasks)
         return this.#boardtasks.filter((task) => task.status === status);
     }
 
