@@ -17,7 +17,7 @@ export default class TasksBoardPresenter {
   init() {
     this.#statuses.forEach((status) => {
         const tasks = this.#taskModel.getTasksByStatus(status.class);
-        console.log(status.class)
+        
         
         const boardTaskComponent = new BoardTaskComponent();
         
